@@ -36,6 +36,48 @@ Bot.prototype.searchFollow = function (params, callback) {
 	}
   });
 };
+//
+//choose a random friend of one of your followers and then follow that user
+//
+Bot.prototype.migle = function (callback) {
+  var self = this;
+  this.twit.get('followers/ids', funcation(err, reply) {
+    if(err) { return callback(err); }
+
+    var followers = reply.ids
+    , randFollower = randIndex(followers);
+    self.twit.get('friends/ids', { user_id: randFollower }, function(err, reply) {
+      if(err) { return callback(err); }
+
+      var friends = reply.ids
+      , target = randIndex(friends);
+
+      self.twit.post('friendships/create', { id: target }, callback);
+    })
+  })
+};
+//
+//Follow a random follower of a specific user - targeted mingle
+//
+Bot.prototype.migleUser = function (params, callback) {
+  var self = this;
+
+  this.twit.get('followers/ids', params, function(err, reply) {
+    if(err) { return callback(err); }
+
+    console.log("Looking for a follower of @" + params.screen_name);
+    var followers = reply.ids
+    , randFollower = randIndex(followers);
+    self.twit.get('friends/ids', { user_id: randFollower }, function(err, reply) {
+      if(err) { return callback(err); }
+
+      var friends = reply.ids
+      , target = randIndex(friends);
+
+      self.twit.post('friendships/create', {id: target }, callback);
+    })
+  })
+};
 
 //
 // retweet
