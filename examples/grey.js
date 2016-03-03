@@ -1,5 +1,7 @@
 //
+//
 //twit bot based on RTD2
+//
 //
 //
 var Bot = require('./bot')
@@ -17,67 +19,77 @@ function datestring() {
 	+ d.getDate();
 };
 function getRandomArbitrary(min, max) {
-	return math.random(max - min) + min;
+	return Math.random(max - min) + min;
+
 };
 
 setInterval(function() {
 	bot.twit.get('followers/ids', function(err, reply) {
-		if(err) return handError(err);
+		if(err) return handleError(err);
 		console.log('\n# Followers:' +reply.ids.length.toString());
 	});
 	var rand = Math.random();
-	if( rand <=.1 ){//Follow a follower of 
-
-	} else if (rand <= .2 ) {//Follow a follower of 
+	//console.log(rand);
+	if( rand <=.1 ){//Follow a follower of @thepennyhoarder
 		var params = {
-			screen_name: ''
+			screen_name: "thepennyhoarder"
 		};
-		bot.migleUser(params, function(err, reply ) {
+		bot.mingleUser(params, function(err,reply) {
+			if(err) return handleError(err)
+			var name = reply.screen_name;
+      		console.log("\nMingle: followed @" + name + ", follower of @" + params.screen_name);
+		})
+
+	} else if (rand <= .2 ) {//Follow a follower of @krazycouponlady
+		var params = {
+			screen_name: "krazycouponlady"
+		};
+		bot.mingleUser(params, function(err, reply) {
 			if(err) return handleError(err);
 
 			var name = reply.screen_name;
-			console.log("\nMingle: Followed @" + name ", follower of @" + screen_name);
+      		console.log("\nMingle: followed @" + name + ", follower of @" + params.screen_name);
 		});
 
-	} else if (rand <= .3 ) {//Follow a follower of 
+	} else if (rand <= .3 ) {//Follow a follower of @mint
 		var params = {
-			screen_name: ''
+			screen_name: "mint"
 		};
-		bot.migleUser(params, function(err, reply ) {
+		bot.mingleUser(params, function(err, reply ) {
 			if(err) return handleError(err);
 
 			var name = reply.screen_name;
-			console.log("\nMingle: Followed @" + name ", follower of @" + screen_name);
+			console.log("\nMingle: Followed @" + name  + ", follower of @" + params.screen_name);
 		});
-	} else if (rand <= .4 ) {//Follow a follower of 
+	} else if (rand <= .4 ) {//Follow a follower of @psfdeals
 		var params = {
-			screen_name: ''
+			screen_name: "psfdeals"
 		};
-		bot.migleUser(params, function(err, reply ) {
+		bot.mingleUser(params, function(err, reply ) {
 			if(err) return handleError(err);
 
 			var name = reply.screen_name;
-			console.log("\nMingle: Followed @" + name ", follower of @" + screen_name);
+			console.log("\nMingle: Followed @" + name + ", follower of @" + params.screen_name);
 		});
-	} else if (rand <= .5 ) {//Follow a follower of 
+	} else if (rand <= .5 ) {//Follow a follower of @wisebread
 		var params = {
-			screen_name: ''
+			screen_name: "wisebread"
 		};
-		bot.migleUser(params, function(err, reply ) {
+		bot.mingleUser(params, function(err, reply ) {
 			if(err) return handleError(err);
 
 			var name = reply.screen_name;
-			console.log("\nMingle: Followed @" + name ", follower of @" + screen_name);
+			console.log("\nMingle: Followed @" + name  + ", follower of @" + params.screen_name);
 		});
-	} else if (rand <= .6 ) {//Follow a follower of 
+	} else if (rand <= .6 ) {//Follow a follower of @befrugal
 		var params = {
-			screen_name: ''
+			screen_name: "befrugal"
 		};
-		bot.migleUser(params, function(err, reply ) {
+		bot.mingleUser(params, function(err, reply ) {
 			if(err) return handleError(err);
 
 			var name = reply.screen_name;
-			console.log("\nMingle: Followed @" + name ", follower of @" + screen_name);
+			console.log("\nMingle: Followed @" + name  +", follower of @" + params.screen_name);
 		});
 	} else {//Prune
 		bot.prune(function (err, reply) {
@@ -89,3 +101,9 @@ setInterval(function() {
 
 	}
 }, getRandomArbitrary(120000,180000));
+
+function handleError(err) {
+	console.error('response status:', err.statsuCode);
+	console.error('data:', err.message);
+	console.error('code:', err.code);
+}

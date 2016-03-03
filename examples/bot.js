@@ -20,97 +20,6 @@ Bot.prototype.tweet = function (status, callback) {
   this.twit.post('statuses/update', { status: status }, callback);
 };
 
-Bot.prototype.searchFollow = function (params, callback) {
-  var self = this;
- 
-  self.twit.get('search/tweets', params, function (err, reply) {
-    if(err) return callback(err);
- 
-    var tweets = reply.statuses;
-	var rTweet = randIndex(tweets)
-	if(typeof rTweet != 'undefined')
-	{
-		var target = rTweet.user.id_str;
- 
-		self.twit.post('friendships/create', { id: target }, callback);
-	}
-  });
-};
-//
-//choose a random friend of one of your followers and then follow that user
-//
-Bot.prototype.migle = function (callback) {
-  var self = this;
-  this.twit.get('followers/ids', funcation(err, reply) {
-    if(err) { return callback(err); }
-
-    var followers = reply.ids
-    , randFollower = randIndex(followers);
-    self.twit.get('friends/ids', { user_id: randFollower }, function(err, reply) {
-      if(err) { return callback(err); }
-
-      var friends = reply.ids
-      , target = randIndex(friends);
-
-      self.twit.post('friendships/create', { id: target }, callback);
-    })
-  })
-};
-//
-//Follow a random follower of a specific user - targeted mingle
-//
-Bot.prototype.migleUser = function (params, callback) {
-  var self = this;
-
-  this.twit.get('followers/ids', params, function(err, reply) {
-    if(err) { return callback(err); }
-
-    console.log("Looking for a follower of @" + params.screen_name);
-    var followers = reply.ids
-    , randFollower = randIndex(followers);
-    self.twit.get('friends/ids', { user_id: randFollower }, function(err, reply) {
-      if(err) { return callback(err); }
-
-      var friends = reply.ids
-      , target = randIndex(friends);
-
-      self.twit.post('friendships/create', {id: target }, callback);
-    })
-  })
-};
-
-//
-// retweet
-//
-Bot.prototype.retweet = function (params, callback) {
-  var self = this;
- 
-  self.twit.get('search/tweets', params, function (err, reply) {
-    if(err) return callback(err);
- 
-    var tweets = reply.statuses;
-    var randomTweet = randIndex(tweets);
-	if(typeof randomTweet != 'undefined')
-		self.twit.post('statuses/retweet/:id', { id: randomTweet.id_str }, callback);
-  });
-};
- 
-//
-// favorite a tweet
-//
-Bot.prototype.favorite = function (params, callback) {
-  var self = this;
- 
-  self.twit.get('search/tweets', params, function (err, reply) {
-    if(err) return callback(err);
- 
-    var tweets = reply.statuses;
-    var randomTweet = randIndex(tweets);
-	if(typeof randomTweet != 'undefined')
-		self.twit.post('favorites/create', { id: randomTweet.id_str }, callback);
-  });
-};
-
 //
 //  choose a random friend of one of your followers, and follow that user
 //
@@ -129,8 +38,25 @@ Bot.prototype.mingle = function (callback) {
           var friends = reply.ids
             , target  = randIndex(friends);
             
-          self.twit.post('friendships/create', { id: target }, callback); 
+          self.twit.post('friendships/create', { id: target }, callback);
         })
+    })
+};
+//
+// Follow a random follower of a specific user - targeted mingle
+//
+Bot.prototype.mingleUser = function (params, callback) {
+  var self = this;
+  
+  this.twit.get('followers/ids', params, function(err, reply) {
+      if(err) { return callback(err); }
+      
+      console.log("Looking for a follower of @" + params.screen_name); 
+      var followers = reply.ids
+      , target = randIndex(followers);
+
+      self.twit.post('friendships/create' , {id: target}, callback);
+      var name = reply.screen_name 
     })
 };
 
@@ -140,7 +66,7 @@ Bot.prototype.mingle = function (callback) {
 Bot.prototype.prune = function (callback) {
   var self = this;
   
-  this.twit.get('followers/ids', function(err, reply) {
+  this.twit.get('followers/ids', function (err, reply) {
       if(err) return callback(err);
       
       var followers = reply.ids;
@@ -162,7 +88,54 @@ Bot.prototype.prune = function (callback) {
       });
   });
 };
-
+//
+// follow someone who tweets about something
+//
+Bot.prototype.searchFollow = function (params, callback) {
+  var self = this;
+ 
+  self.twit.get('search/tweets', params, function (err, reply) {
+    if(err) return callback(err);
+ 
+    console.log("SearchFollow for the subject : " + params.q);
+    var tweets = reply.statuses;
+    //console.log(tweets);
+    var target = randIndex(tweets).user.id_str;
+ 
+    self.twit.post('friendships/create', { id: target }, callback);
+  });
+};
+//
+// retweet
+//
+Bot.prototype.retweet = function (params, callback) {
+  var self = this;
+ 
+  self.twit.get('search/tweets', params, function (err, reply) {
+    if(err) return callback(err);
+ 
+    var tweets = reply.statuses;
+    var randomTweet = randIndex(tweets);
+ 
+    self.twit.post('statuses/retweet/:id', { id: randomTweet.id_str }, callback);
+  });
+};
+//
+// favorite a tweet
+//
+Bot.prototype.favorite = function (params, callback) {
+  var self = this;
+ 
+  self.twit.get('search/tweets', params, function (err, reply) {
+    if(err) return callback(err);
+ 
+    console.log("Favorited a tweet for about :" + params.q);
+    var tweets = reply.statuses;
+    var randomTweet = randIndex(tweets);
+ 
+    self.twit.post('favorites/create', { id: randomTweet.id_str }, callback);
+  });
+};
 function randIndex (arr) {
   var index = Math.floor(arr.length*Math.random());
   return arr[index];
