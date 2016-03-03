@@ -37,7 +37,7 @@ setInterval(function() {
 		bot.mingleUser(params, function(err,reply) {
 			if(err) return handleError(err)
 			var name = reply.screen_name;
-      		console.log("\nMingle: followed @" + name + ", follower of @" + params.screen_name);
+      		console.log("\nMingle: followed @ " + name + ", follower of @" + params.screen_name);
 		})
 
 	} else if (rand <= .2 ) {//Follow a follower of @krazycouponlady
@@ -48,7 +48,7 @@ setInterval(function() {
 			if(err) return handleError(err);
 
 			var name = reply.screen_name;
-      		console.log("\nMingle: followed @" + name + ", follower of @" + params.screen_name);
+      		console.log("\nMingle: followed @ " + name + ", follower of @" + params.screen_name);
 		});
 
 	} else if (rand <= .3 ) {//Follow a follower of @mint
@@ -59,7 +59,7 @@ setInterval(function() {
 			if(err) return handleError(err);
 
 			var name = reply.screen_name;
-			console.log("\nMingle: Followed @" + name  + ", follower of @" + params.screen_name);
+			console.log("\nMingle: Followed @ " + name  + ", follower of @" + params.screen_name);
 		});
 	} else if (rand <= .4 ) {//Follow a follower of @psfdeals
 		var params = {
@@ -69,7 +69,7 @@ setInterval(function() {
 			if(err) return handleError(err);
 
 			var name = reply.screen_name;
-			console.log("\nMingle: Followed @" + name + ", follower of @" + params.screen_name);
+			console.log("\nMingle: Followed @ " + name + ", follower of @" + params.screen_name);
 		});
 	} else if (rand <= .5 ) {//Follow a follower of @wisebread
 		var params = {
@@ -79,7 +79,7 @@ setInterval(function() {
 			if(err) return handleError(err);
 
 			var name = reply.screen_name;
-			console.log("\nMingle: Followed @" + name  + ", follower of @" + params.screen_name);
+			console.log("\nMingle: Followed @ " + name  + ", follower of @" + params.screen_name);
 		});
 	} else if (rand <= .6 ) {//Follow a follower of @befrugal
 		var params = {
@@ -89,14 +89,14 @@ setInterval(function() {
 			if(err) return handleError(err);
 
 			var name = reply.screen_name;
-			console.log("\nMingle: Followed @" + name  +", follower of @" + params.screen_name);
+			console.log("\nMingle: Followed @ " + name  +", follower of @" + params.screen_name);
 		});
 	} else {//Prune
 		bot.prune(function (err, reply) {
 			if(err) return handleError(err);
 
 			var name = reply.screen_name
-			console.log('\nPrune: unfollowed @' + name);
+			console.log('\nPrune: unfollowed @ ' + name);
 		});
 
 	}
