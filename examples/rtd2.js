@@ -24,42 +24,84 @@ setInterval(function() {
   });
   var rand = Math.random();
 
-  if(rand <= 0.10) {      //  tweet popular github tweet
+  if(rand <= 0.1) {//follow someone who tweets about saving money
     var params = {
-        q: 'github.com/'
+      q: "saving money"
       , since: datestring()
-      , result_type: 'mixed'
+      , result_type: "mixed"
     };
-    bot.twit.get('search/tweets', params, function (err, reply) {
-      if(err) return handleError(err);
+    bot.searchFollow(params, function(err, reply) {
+      if(err) return handleError(err)
 
-      var max = 0, popular;
-
-      var tweets = reply.statuses
-        , i = tweets.length;
-
-      while(i--) {
-        var tweet = tweets[i]
-          , popularity = tweet.retweet_count;
-
-        if(popularity > max) {
-          max = popularity;
-          popular = tweet.text;
-        }
-      }
-
-      bot.tweet(popular, function (err, reply) {
-        if(err) return handleError(err);
-
-        console.log('\nTweet: ' + (reply ? reply.text : reply));
-      })
+        var name = reply.screen_name;
+      console.log("\nSearch Follow: followed @" + reply.name + " who tweeted about " + params.q);
     });
-  } else if(rand <= 0.55) { //  make a friend
-    bot.mingle(function(err, reply) {
-      if(err) return handleError(err);
+  } else if (rand <= .2) {//favroite a tweet about saving money
+    var params = {
+      q: "saving money"
+      , since: datestring()
+      , result_type: "mixed"
+    }
+    bot.favorite(params, function(err, reply) {
+      if (err) return handleError(err)
 
-      var name = reply.screen_name;
-      console.log('\nMingle: followed @' + name);
+      console.log("\nFavorite: favorited response: " + reply.id + "'" + reply.text + "'");
+    });
+
+  } else if (rand <= .3) {//follow someone who tweets about lifehacks
+    var params = {
+      q: "lifehack"
+      , since: datestring()
+      , result_type: "mixed"
+    };
+    bot.searchFollow(params, function(err, reply) {
+      if(err) return handleError(err)
+
+      console.log("\nSearchFollow: followed @" + reply.name + " who tweeted about " + params.q)
+    });
+  } else if (rand <= .4 ) {//favorite a tweet about lifehacks
+    var params = {
+      q: "lifehack"
+      , since: datestring()
+      , result_type: "mixed"
+    };
+    bot.favorite(params, function(err, reply) {
+      if(err) return handleError(err)
+
+      console.log("\nFavorite: favorited response: " + reply.id + "'" + reply.text + "'")
+    });
+  } else if (rand <= .5) {//follow somoene who tweets about cheap healthy meals
+    var params = {
+      q: "cheap healthy meals"
+      , since: datestring()
+      , result_type: "mixed"
+    };
+    bot.searchFollow(params, function(err, reply) {
+      if(err) return handleError(err)
+
+      console.log("\nSearchFollow: followed @" + reply.name + " who tweeted about " + params.q)
+    });
+  } else if (rand <= .6 ) {//favorite a tweet about cheap healthy meals
+    var params = {
+      q: "cheap healthy meals"
+      , since: datestring()
+      , result_type: "mixed"
+    };
+    bot.favorite(params, function(err, reply) {
+      if(err) return handleError(err)
+
+      console.log("\nFavorite: favorited response: " + reply.id + "'" + reply.text + "'")
+    });
+  } else if (rand <= .7 ) {//favorite a tweet about cartwheel deals
+    var params = {
+      q: "cartwheel deals"
+      , since: datestring()
+      , result_type: "mixed"
+    };
+    bot.favorite(params, function(err, reply) {
+      if(err) return handleError(err)
+
+      console.log("\nFavorite: favorited response: " + reply.id + "'" + reply.text + "'")
     });
   } else {                  //  prune a friend
     bot.prune(function(err, reply) {
@@ -69,9 +111,10 @@ setInterval(function() {
       console.log('\nPrune: unfollowed @'+ name);
     });
   }
-}, 40000);
+}, 70000);
 
 function handleError(err) {
   console.error('response status:', err.statusCode);
-  console.error('data:', err.data);
+  console.error('data:', err.message);
+  console.error('code:', err.code);
 }

@@ -49,7 +49,7 @@ setInterval(function () {
 
 			console.log("\nFavoite: favorited reponse " + reply.id + ": " + reply.text);
 		});
-
+		/*******
 	} else if (rand <= .15) {
 		var params = {
 			screen_name: randIndex(influencers)
@@ -61,7 +61,7 @@ setInterval(function () {
 			if(err) return handleError(err);
 			console.log("\nRetweet: retweeted a status by @" + params.screen_name + ": " + reply.text);
 		});
-
+		****/
 	} else if (rand <= .20) {
 		var params = {
 			q: "lifehack"
